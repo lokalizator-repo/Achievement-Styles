@@ -4,6 +4,27 @@ A Millennium plugin that brings PS5, PS4 and Xbox achievement notifications to S
 
 It matches your Steam achievements with real PlayStation trophies and Xbox achievements, including trophy grades, PSN completion percentages, Xbox rarity and Gamerscore.
 
+## Screenshots
+
+**PS5**
+
+![PS5 achievement notification](screenshots/ps5.png)
+
+**PS4**
+
+![PS4 achievement notification](screenshots/ps4.png)
+
+**Xbox**
+
+![Xbox achievement notification](screenshots/xbox.png)
+
+<details>
+<summary>Settings</summary>
+
+![Achievement Styles settings](screenshots/settings.png)
+
+</details>
+
 ## Features
 
 - PS5, PS4 and Xbox styles, or a random style for each notification.
