@@ -15,12 +15,12 @@ for (const [from, name] of [
 ]) await cp(from, join(destination, name));
 
 const excluded = new Set([
-  'packed', 'start-steam.ps1', 'extract-xbox-console.py',
+  'start-steam.ps1', 'extract-xbox-console.py',
 ]);
 for (const directory of ['frontend', 'backend', 'resources', 'scripts', 'tests', 'preview']) {
   await cp(directory, join(source, directory), {
     recursive: true,
-    filter: file => !excluded.has(file.split(/[\\/]/).at(-1)) && !/-assets\.ts$/.test(file),
+    filter: file => !excluded.has(file.split(/[\\/]/).at(-1)),
   });
 }
 for (const file of ['package.json', 'package-lock.json', 'millennium.toml', 'tsconfig.json', 'README.md', '.gitignore']) {
