@@ -186,7 +186,9 @@ export default definePlugin(async () => {
   }
   const stopLiveTrophies = startLiveTrophies();
   return {
-    title: 'Achievement Styles', icon: <TrophyIcon />, content: <Settings onStyleChange={updateStyle} onCompletionChange={updateCompletion} />,
+    title: 'Achievement Styles',
+    icon: <span style={{ display: 'inline-flex', width: 16, height: 16, flexShrink: 0 }}><TrophyIcon /></span>,
+    content: <Settings onStyleChange={updateStyle} onCompletionChange={updateCompletion} />,
     onDismount() {
       unsubscribe();
       stopActivity();
