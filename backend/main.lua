@@ -184,13 +184,13 @@ return {
             millennium.config.set("xboxColor", "#107c10")
         end
         if millennium.config.get("completionPlatinum") == nil then
-            millennium.config.set("completionPlatinum", true)
+            millennium.config.set("completionPlatinum", false)
         end
         if millennium.config.get("subtitleMode") == nil then
             millennium.config.set("subtitleMode", "description")
         end
         if millennium.config.get("raritySource") == nil then
-            millennium.config.set("raritySource", "steam")
+            millennium.config.set("raritySource", "off")
         end
         if millennium.config.get("language") == nil then
             millennium.config.set("language", "auto")

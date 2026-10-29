@@ -42,7 +42,7 @@ export const ps4MotionStyles = `
   .trophy-styles-ps4-text { position: absolute; left: 186px; top: 19px; width: 274px; }
   .trophy-styles-ps4-card .trophy-styles-earned { font-size: 30px; line-height: 36px; white-space: nowrap; }
   .trophy-styles-ps4-title { display: flex; align-items: center; gap: 11px; min-width: 0; height: 34px; margin-top: 1px; }
-  .trophy-styles-ps4-name { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: 27px; line-height: 34px; }
+  .trophy-styles-ps4-name { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: 27px; line-height: 34px; }
   .trophy-styles-ps4-card .trophy-styles-grade-icon { align-self: flex-start; flex: none; width: 26px; height: 28px; object-fit: contain; }
   .trophy-styles-ps4-card .trophy-styles-ps4-heading { height: 36px; margin-top: 0; }
   .trophy-styles-ps4-heading .trophy-styles-ps4-name { font-size: 30px; line-height: 36px; }
@@ -82,15 +82,15 @@ export function Ps4Card({ achievement, popup = false, playing = !popup }: { achi
       data-notification-style="ps4" data-trophy-phase={popup ? 'waiting' : undefined}>
       <img className="trophy-styles-ps4-artwork" src={achievement.strImage || ps4TrophyImages[grade ?? 'bronze']} alt=""
         onError={event => { event.currentTarget.onerror = null; event.currentTarget.src = ps4TrophyImages[grade ?? 'bronze']; }} />
-      <div className="trophy-styles-ps4-text" style={progress ? { top: 10 } : undefined}>
+      <div className="trophy-styles-ps4-text">
         {!descriptionMode && <div className="trophy-styles-earned">{t('Trophy earned!')}</div>}
         <div className={`trophy-styles-ps4-title${descriptionMode ? ' trophy-styles-ps4-heading' : ''}`}>
           {grade && !achievement.hideGrade && <img className="trophy-styles-grade-icon" data-trophy-grade={grade}
             src={ps4TrophyImages[grade]} alt="" title={t(grade[0].toUpperCase() + grade.slice(1))} />}
           <div className="trophy-styles-ps4-name" title={achievement.strName}>{achievement.strName}</div>
+          {progress && achievement.gameProgress && <span data-trophy-progress title={progress} aria-label={progress} style={{ flexShrink: 0, fontSize: 12, color: '#888', fontVariantNumeric: 'tabular-nums' }}>{achievement.gameProgress.earned} / {achievement.gameProgress.total}</span>}
         </div>
         {descriptionMode && <ScrollingSubtitle text={description} active={playing} onMeasure={measureDescription} />}
-        {progress && <div data-trophy-progress style={{ fontSize: 14, lineHeight: '16px', whiteSpace: 'nowrap' }}>{progress}</div>}
       </div>
       <Ps4Badge key={achievement.motionKey ?? achievement.strID ?? achievement.strName} active={playing} />
     </div>

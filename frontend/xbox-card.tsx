@@ -79,7 +79,7 @@ function featherEdges(context: CanvasRenderingContext2D) {
   context.restore();
 }
 
-export function drawXboxCard(context: CanvasRenderingContext2D, kind: XboxVariant, time: number, lines: [string, string, string], hideAt: number, gamerscore?: number, color = defaultXboxColor) {
+export function drawXboxCard(context: CanvasRenderingContext2D, kind: XboxVariant, time: number, lines: [string, string, string], hideAt: number, gamerscore?: number, color = defaultXboxColor, progress = '') {
   context.clearRect(0, 0, canvasWidth, canvasHeight);
   if (time >= hideAt + 2.2) return;
   context.save();
@@ -88,6 +88,8 @@ export function drawXboxCard(context: CanvasRenderingContext2D, kind: XboxVarian
   const theme = xboxTheme(color), accent = theme.accent;
   context.font = `400 22px ${font}`;
   const firstWidth = context.measureText(lines[0]).width;
+  context.font = `400 16px ${font}`;
+  const progressWidth = progress ? context.measureText(progress).width + 14 : 0;
   context.font = `400 24px ${font}`;
   const scoreWidth = gamerscore === undefined || kind === 'mythic' ? 0 : 27 + context.measureText(`${gamerscore} – `).width;
   const secondWidth = context.measureText(lines[1]).width + scoreWidth;
@@ -97,7 +99,7 @@ export function drawXboxCard(context: CanvasRenderingContext2D, kind: XboxVarian
     const middle = Math.floor((descriptionWidth + limit) / 2);
     if (wrapText(context, lines[2], middle).length > 2) descriptionWidth = middle + 1; else limit = middle;
   }
-  const width = Math.min(530, Math.max(300, Math.ceil(Math.max(firstWidth, secondWidth, descriptionWidth)) + 76));
+  const width = Math.min(530, Math.max(300, Math.ceil(Math.max(firstWidth + progressWidth, secondWidth, descriptionWidth)) + 76));
   const x = (sceneWidth - width) / 2;
   const state = xboxFrameState(kind, time, width, hideAt);
   const node = (name: string, left: number, y: number, w: number, h: number, draw: () => void) => {
@@ -155,7 +157,11 @@ export function drawXboxCard(context: CanvasRenderingContext2D, kind: XboxVarian
     context.fillStyle = theme.foreground; context.textBaseline = 'middle';
     node('FrontText', 0, 0, width - 68, 100, () => {
       const headlineSize = Math.min(22, 22 * (width - 76) / Math.max(1, firstWidth));
-      context.font = `400 ${headlineSize}px ${font}`; context.fillText(lines[0], 0, 28);
+      context.font = `400 ${headlineSize}px ${font}`; context.fillText(lines[0], 0, 28, width - 76 - progressWidth);
+      if (progress) {
+        context.save(); context.globalAlpha *= .7; context.font = `400 16px ${font}`; context.textAlign = 'right';
+        context.fillText(progress, width - 76, 28); context.restore();
+      }
       context.font = `400 24px ${font}`;
       const offset = scoreWidth;
       const rows = wrapText(context, lines[1], width - 76 - offset);
@@ -244,7 +250,9 @@ export function XboxCard({ achievement, popup = false, playing = !popup }: { ach
     + (kind === 'rare' && percent !== undefined ? ` - ${percent.toLocaleString(locale, { maximumFractionDigits: 2 })}%` : '');
   const description = kind === 'mythic' ? achievement.completionCount === undefined ? t('Game complete')
     : t(achievement.completionBaseGame ? 'Unlocked all {count} achievements in the original game' : 'Unlocked all {count} Steam achievements', { count: achievement.completionCount })
-    : [achievement.description?.trim() || achievement.strName, progressText(achievement, showProgress, t)].filter(Boolean).join(' · ');
+    : achievement.description?.trim() || achievement.strName;
+  const progressLabel = progressText(achievement, showProgress, t);
+  const progress = progressLabel && achievement.gameProgress ? `${achievement.gameProgress.earned} / ${achievement.gameProgress.total}` : '';
   const hideAt = xboxHideAt(kind, popupDuration);
   useEffect(() => {
     const element = canvas.current, context = element?.getContext('2d');
@@ -261,7 +269,7 @@ export function XboxCard({ achievement, popup = false, playing = !popup }: { ach
       element.width = width; element.height = height;
       context.setTransform(width / canvasWidth, 0, 0, height / canvasHeight, 0, 0);
       if (currentFrame.current !== undefined) drawXboxCard(context, kind, currentFrame.current,
-        [headline, achievement.strName, description], hideAt, achievement.xboxGamerscore, color.current);
+        [headline, achievement.strName, description], hideAt, achievement.xboxGamerscore, color.current, progress);
     };
     resize();
     const observer = new ResizeObserver(resize);
@@ -278,23 +286,23 @@ export function XboxCard({ achievement, popup = false, playing = !popup }: { ach
         const elapsed = (now - started) / 1000;
         const at = reduced ? 3.4 : popup ? elapsed : Math.min(elapsed, hideAt - 0.05);
         currentFrame.current = at;
-        drawXboxCard(context, kind, at, [headline, achievement.strName, description], hideAt, achievement.xboxGamerscore, color.current);
+        drawXboxCard(context, kind, at, [headline, achievement.strName, description], hideAt, achievement.xboxGamerscore, color.current, progress);
         element.dataset.xboxTime = at.toFixed(3);
         if (!reduced && elapsed < (popup ? hideAt + 2.2 : hideAt)) frame = owner.requestAnimationFrame(draw);
       };
       frame = owner.requestAnimationFrame(draw);
     });
     return () => { stopped = true; owner.cancelAnimationFrame(frame); observer.disconnect(); owner.removeEventListener('resize', resize); };
-  }, [playing, popup, kind, headline, achievement.strName, description, achievement.xboxGamerscore, achievement.motionKey, hideAt]);
+  }, [playing, popup, kind, headline, achievement.strName, description, achievement.xboxGamerscore, achievement.motionKey, hideAt, progress]);
   useEffect(() => {
     const context = canvas.current?.getContext('2d');
     if (context && currentFrame.current !== undefined) drawXboxCard(context, kind, currentFrame.current,
-      [headline, achievement.strName, description], hideAt, achievement.xboxGamerscore, xboxColor);
+      [headline, achievement.strName, description], hideAt, achievement.xboxGamerscore, xboxColor, progress);
   }, [xboxColor]);
   return <div className={`trophy-styles-card trophy-styles-xbox-card${popup ? ' trophy-styles-popup-card' : ''}`}
     data-notification-style="xbox" data-xbox-variant={kind} data-trophy-phase={popup ? 'waiting' : undefined}
     style={{ position: 'relative', width: canvasWidth, height: canvasHeight, background: 'transparent', overflow: 'hidden' }}>
-    <canvas ref={canvas} role="img" aria-label={`${headline}. ${achievement.strName}. ${description}`}
+    <canvas ref={canvas} role="img" aria-label={`${headline}. ${achievement.strName}. ${description}${progressLabel ? `. ${progressLabel}` : ''}`}
       style={{ display: 'block', width: canvasWidth, height: canvasHeight }} />
   </div>;
 }

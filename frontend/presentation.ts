@@ -14,7 +14,7 @@ export type NotificationStyleSelection = NotificationStyle | 'random';
 const dictionaries: Record<string, Record<string, string>> = { ru, uk };
 const listeners = new Set<() => void>();
 let profiles: Record<string, GameProfile> = {};
-let settings = { showProgress: false, notificationStyle: 'ps5' as NotificationStyleSelection, xboxColor: defaultXboxColor, popupCorner: 'top-right' as PopupCorner, popupDuration: 'auto' as PopupDuration, language: 'auto' as Language, subtitleMode: 'description' as SubtitleMode, raritySource: 'steam' as RaritySource, steamLanguage: '', enabled: false, matchPlayStation: true };
+let settings = { showProgress: false, notificationStyle: 'ps5' as NotificationStyleSelection, xboxColor: defaultXboxColor, popupCorner: 'top-right' as PopupCorner, popupDuration: 'auto' as PopupDuration, language: 'auto' as Language, subtitleMode: 'description' as SubtitleMode, raritySource: 'off' as RaritySource, steamLanguage: '', enabled: false, matchPlayStation: true };
 
 export function getGameProfile(appid?: number) {
   return profiles[String(appid)] ?? {};

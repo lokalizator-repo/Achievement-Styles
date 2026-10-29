@@ -60,7 +60,7 @@ async function host(run, options = {}) {
   });
   await page.setContent('<html lang="en"><body><div id="root"></div></body></html>');
   await page.evaluate(({ fixtures, options }) => {
-    window.activityConfig = { gameProfiles: '{}', showProgress: false, ...(options.activityConfig ?? {}) };
+    window.activityConfig = { raritySource: 'steam', gameProfiles: '{}', showProgress: false, ...(options.activityConfig ?? {}) };
     window.calls = [];
     window.nativePercent = 12.3;
     window.configWrites = [];
@@ -85,6 +85,7 @@ async function host(run, options = {}) {
   }, { fixtures, options });
   await page.addScriptTag({ type: 'module', content: result.outputFiles[0].text });
   await page.waitForFunction(() => typeof window.catalog?.loadGameCatalog === 'function');
+  await page.evaluate(source => window.presentation.updatePresentation('raritySource', source), options.activityConfig?.raritySource ?? 'steam');
   try { await run(page); assert.deepEqual(errors, []); } catch (error) { if (errors.length) error.message += `\nBrowser errors: ${errors.join('; ')}`; throw error; } finally { await page.close(); }
 }
 
@@ -245,6 +246,82 @@ test('public lookup discovers a game outside the bundle, prefers PS5 over PS4 an
     assert.equal(result.data.gameId, 'elden-ring-ps5');
     assert.deepEqual(result.calls, ['cache']);
   }, { saved });
+});
+
+test('Spider-Man 2 discovery accepts the current Steam schema and keeps sequels separate', async () => {
+  await host(async page => {
+    const result = await page.evaluate(async html => {
+      window.backend.getPublicSteamAchievements = async () => html;
+      window.backend.searchPublicPs5Games = async query => {
+        window.calls.push(`search:${query}`);
+        return { success: true, data: [
+          { platform: 8, display_title: "Marvel's Spider-Man Remastered", sort_title: 'marvels-spider-man-remastered-ps5' },
+          { platform: 8, display_title: "Marvel's Spider-Man 2", sort_title: 'marvels-spider-man-2-ps5' },
+        ] };
+      };
+      return { catalog: await window.catalog.loadGameCatalog(2651280), calls: window.calls };
+    }, steamPage(2651280, "Marvel's Spider-Man 2").replace('"schema"', '"schema_v2"'));
+    assert.equal(result.catalog.kind, 'ready');
+    assert.equal(result.catalog.gameId, 'marvels-spider-man-2-ps5');
+    assert.equal(Object.keys(result.catalog.matches).length, 3);
+    assert.deepEqual(result.calls.filter(call => call.startsWith('search:')), ["search:Marvel's Spider-Man 2"]);
+  });
+});
+
+test('catalog search normalizes typographic punctuation and preserves the original spelling as a fallback', async () => {
+  await host(async page => {
+    for (const originalOnly of [false, true]) {
+      const appid = originalOnly ? 1817190 : 1817070;
+      const name = originalOnly ? 'Marvel’s Spider-Man: Miles Morales' : 'Marvel’s Spider-Man Remastered';
+      const slug = originalOnly ? 'marvels-spider-man-miles-morales-ps5' : 'marvels-spider-man-remastered-ps5';
+      const result = await page.evaluate(async ({ html, appid, name, slug, originalOnly }) => {
+        window.backend.getPublicSteamAchievements = async () => html;
+        window.backend.searchPublicPs5Games = async query => {
+          window.calls.push(`search:${query}`);
+          return { success: true, data: query === (originalOnly ? name : name.replace('’', "'"))
+            ? [{ platform: 8, display_title: name, sort_title: slug }] : [] };
+        };
+        return window.catalog.loadGameCatalog(appid);
+      }, { html: steamPage(appid, name), appid, name, slug, originalOnly });
+      assert.equal(result.kind, 'ready');
+      assert.equal(result.gameId, slug);
+    }
+  });
+});
+
+test('Steam schema parsing prefers valid v2 data and falls back to the legacy schema', async () => {
+  await host(async page => {
+    const result = await page.evaluate(html => {
+      const document = new DOMParser().parseFromString(html, 'text/html');
+      const state = JSON.parse(document.querySelector('#valve-ssr-data').textContent);
+      const { queries } = JSON.parse(state.renderContext.queryData);
+      const current = structuredClone(queries[0]);
+      current.queryKey[2] = 'schema_v2';
+      current.state.data.groups[0].achievements[0].name = 'Current title';
+      queries.push(current);
+      const parse = () => window.catalog.parseSteamSchema('<script id="valve-ssr-data">'
+        + JSON.stringify({ renderContext: { queryData: JSON.stringify({ queries }) } }) + '</script>', 2651280);
+      const preferred = parse().achievements[0].name;
+      current.state.data = null;
+      const fallback = parse().achievements[0].name;
+      queries[0].queryKey[1] = 123;
+      let error;
+      try { parse(); } catch (failure) { error = failure.message; }
+      return { preferred, fallback, error };
+    }, steamPage(2651280, "Marvel's Spider-Man 2"));
+    assert.deepEqual(result, { preferred: 'Current title', fallback: 'First Step', error: 'Steam did not return the English achievement schema.' });
+  });
+});
+
+test('refresh reloads the English Steam schema before searching again', async () => {
+  await host(async page => {
+    const result = await page.evaluate(async () => {
+      await window.catalog.loadGameCatalog(1145360);
+      await window.catalog.loadGameCatalog(1145360, undefined, true);
+      return window.calls.filter(call => call === 'steam:1145360');
+    });
+    assert.equal(result.length, 2);
+  });
 });
 
 test('matching rejects ambiguous names and duplicate Steam-to-PS5 assignments', async () => {
@@ -576,6 +653,7 @@ test('source diagnostics report both providers and new settings preserve previou
 test('source diagnostics retain HTTP errors and report Steam fallback without inventing PSN statistics', async () => {
   await host(async page => {
     await page.evaluate(() => {
+      window.activityConfig.raritySource = 'psn';
       window.presentation.updatePresentation('raritySource', 'psn');
       window.backend.getPublicPs5Page = async () => { throw new Error('HTTP 403'); };
     });
@@ -1287,4 +1365,17 @@ test('Xbox settings expose the failing request and allow retrying immediately', 
     await page.getByText('No confident Xbox match. Standard notifications remain available.', { exact: true }).waitFor();
     assert.equal(await page.getByText('Xbox search: xct.live returned HTTP 503', { exact: true }).count(), 0);
   });
+});
+
+
+test('disabled percentage and completion preferences stay off when settings open', async () => {
+  await host(async page => {
+    await page.evaluate(() => window.mount());
+    await page.getByRole('button', { name: 'Do not show', exact: true }).waitFor();
+    assert.equal(await page.getByRole('checkbox', { name: 'Completion platinum', exact: true }).isChecked(), false);
+    await page.evaluate(() => window.mountNative(1145360, 'ID_0', 'An objective'));
+    await page.locator('.trophy-styles-card').waitFor();
+    assert.equal(await page.locator('.trophy-styles-rarity').count(), 0);
+    assert.equal(await page.evaluate(() => window.calls.some(call => call.startsWith('steam-percentages:'))), false);
+  }, { activityConfig: { raritySource: 'off', completionPlatinum: false } });
 });

@@ -43,9 +43,11 @@ export function parseSteamSchema(page: string, appid: number): SteamSchema {
   const state = JSON.parse(document.querySelector('#valve-ssr-data')?.textContent ?? 'null');
   const queries = JSON.parse(state?.renderContext?.queryData ?? 'null')?.queries;
   if (!Array.isArray(queries)) throw new Error('Steam public achievement page changed or is unavailable.');
-  const schema = queries.find(query => query.queryKey?.[0] === 'achievements' && query.queryKey?.[1] === appid && query.queryKey?.[2] === 'schema')?.state?.data;
+  const schema = ['schema_v2', 'schema'].map(key => queries.find(query => query.queryKey?.[0] === 'achievements'
+    && query.queryKey?.[1] === appid && query.queryKey?.[2] === key)?.state?.data).find(data => Array.isArray(data?.groups));
   const store = queries.find(query => query.queryKey?.[0] === 'StoreItem' && query.state?.data?.id === appid && typeof query.state?.data?.name === 'string')?.state?.data;
-  if (!Array.isArray(schema?.groups) || !store?.name) throw new Error('Steam did not return the English game name and achievement schema.');
+  if (!schema) throw new Error('Steam did not return the English achievement schema.');
+  if (!store?.name) throw new Error('Steam did not return the English game name.');
   const items: { api_name?: unknown; name?: unknown; description?: unknown; archived?: unknown }[] = schema.groups.flatMap((group: { achievements?: unknown[] }) => group.achievements ?? []);
   const achievements = items.filter(item => item && !item.archived && typeof item.api_name === 'string' && typeof item.name === 'string')
     .map(item => ({ id: item.api_name as string, name: item.name as string, description: typeof item.description === 'string' ? item.description : '' }));
@@ -144,9 +146,10 @@ export function getSteamSchema(appid: number) {
 }
 
 async function searchCatalogCandidates(name: string, slug?: string) {
-  const searchName = name.replace(/[™®]/g, '').trim();
+  const originalName = name.replace(/[™®]/g, '').trim();
+  const searchName = originalName.normalize('NFKC').replace(/[‘’ʼ]/g, "'").replace(/[‐‑–—]/g, '-');
   const baseName = stripEdition(searchName);
-  const queries = [...new Set([searchName, baseName, baseName.split(/\s+/).slice(0, 1).join(' ')])].filter(query => query.length >= 2);
+  const queries = [...new Set([searchName, originalName, baseName, baseName.split(/\s+/).slice(0, 1).join(' ')])].filter(query => query.length >= 2);
   let candidates: CatalogCandidate[] = [];
   for (const query of queries) {
     const found = parseCandidates(await backend.searchPublicPs5Games(query.slice(0, 200)));
@@ -185,7 +188,10 @@ async function fetchGameCatalog(appid: number, slug?: string): Promise<GameCatal
 export function loadGameCatalog(appid: number, slug?: string, refresh = false): Promise<GameCatalog> {
   if (!Number.isSafeInteger(appid) || appid < 1 || appid >= 2147483648) return Promise.reject(new Error('Invalid Steam game.'));
   const key = `${appid}:${slug ?? ''}`;
-  if (refresh) requests.delete(key);
+  if (refresh) {
+    requests.delete(key);
+    schemas.delete(appid);
+  }
   const existing = requests.get(key);
   if (existing) return existing;
   const load = async (): Promise<GameCatalog> => {

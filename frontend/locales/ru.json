@@ -144,6 +144,7 @@
   "Use global setting": "Использовать общую настройку",
   "Game progress in notifications": "Прогресс игры в уведомлениях",
   "Show the number of earned achievements and completion percentage on notifications.": "Показывать количество полученных достижений и процент завершения игры.",
+  "Show the number of earned achievements on notifications.": "Показывать количество полученных достижений в уведомлениях.",
   "Show": "Показывать",
   "Refresh games": "Обновить список игр",
   "Reset game to global settings": "Вернуть общие настройки для игры",

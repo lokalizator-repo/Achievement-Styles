@@ -76,7 +76,7 @@ export function NotificationSettings({
           { data: 'bottom-right', label: t('Bottom right') }, { data: 'bottom-left', label: t('Bottom left') },
         ]} onChange={option => { updatePresentation('popupCorner', option.data); void setPopupCorner(option.data); }} /></Field>}
       <Field label={t('Content and timing')} />
-      <ToggleField label={t('Game progress in notifications')} description={t('Show the number of earned achievements and completion percentage on notifications.')}
+      <ToggleField label={t('Game progress in notifications')} description={t('Show the number of earned achievements on notifications.')}
         checked={showProgress === true} onChange={value => { updatePresentation('showProgress', value); void setShowProgress(value); }} />
       <Field label={t('Popup duration')} childrenLayout="below"><Dropdown
         selectedOption={[5, 7, 10, 15].includes(popupDuration as number) ? popupDuration : 'auto'}
@@ -88,7 +88,7 @@ export function NotificationSettings({
         { data: 'description', label: t('Achievement description') }, { data: 'earned', label: t('Trophy earned!') },
       ]} onChange={option => { updatePresentation('subtitleMode', option.data); void setSubtitleMode(option.data); }} /></Field>}
       {activeStyle === 'ps5' && <Field label={t('Achievement percentage')} childrenLayout="below"><Dropdown
-        selectedOption={raritySource === 'off' ? 'off' : raritySource === 'psn' ? 'psn' : 'steam'}
+        selectedOption={raritySource === 'steam' ? 'steam' : raritySource === 'psn' ? 'psn' : 'off'}
         rgOptions={[
           { data: 'steam', label: 'Steam' }, { data: 'psn', label: 'PSN' }, { data: 'off', label: t('Do not show') },
         ]} onChange={option => { updatePresentation('raritySource', option.data); void setRaritySource(option.data); }} /></Field>}

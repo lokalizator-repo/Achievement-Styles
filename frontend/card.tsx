@@ -53,6 +53,8 @@ const styles: Record<string, CSSProperties> = {
   grade: { width: 24, height: 28, flexShrink: 0 },
   name: { flex: 1, minWidth: 0, fontSize: 28, fontWeight: 300, lineHeight: '36px', overflow: 'hidden', whiteSpace: 'nowrap', textOverflow: 'ellipsis' },
   rarity: { flexShrink: 0, fontSize: 16, lineHeight: '24px', color: '#aab2bc', fontVariantNumeric: 'tabular-nums', whiteSpace: 'nowrap' },
+  metadata: { display: 'flex', alignItems: 'center', gap: 12, flexShrink: 0 },
+  progress: { fontSize: 13, lineHeight: '24px', color: '#89919a', fontVariantNumeric: 'tabular-nums', whiteSpace: 'nowrap' },
   image: { position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'contain' },
   badge: { width: 54, height: 54, flexShrink: 0, boxSizing: 'border-box', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center' },
   badgeInner: { width: 36, height: 36, borderRadius: '50%', background: '#f0f0e9', display: 'flex', alignItems: 'center', justifyContent: 'center' },
@@ -82,7 +84,7 @@ function Ps5Card({ achievement, popup = false, playing = !popup }: TrophyCardPro
   return (
     <>
     <style>{motionStyles}</style>
-    <div className={`trophy-styles-card${popup ? ' trophy-styles-popup-card' : ''}${platinum ? ' trophy-styles-platinum' : ''}`} style={progress ? { ...styles.card, padding: '12px 24px' } : styles.card} data-notification-style="ps5" data-trophy-phase={popup ? 'waiting' : undefined}>
+    <div className={`trophy-styles-card${popup ? ' trophy-styles-popup-card' : ''}${platinum ? ' trophy-styles-platinum' : ''}`} style={styles.card} data-notification-style="ps5" data-trophy-phase={popup ? 'waiting' : undefined}>
       <div style={styles.artwork}>
         {platinum ? <div className="trophy-styles-platinum-figure">
           <PlatinumAnimation key={achievement.motionKey ?? achievement.strID ?? achievement.strName} active={playing} />
@@ -95,11 +97,13 @@ function Ps5Card({ achievement, popup = false, playing = !popup }: TrophyCardPro
         <div style={styles.titleRow}>
           {!achievement.hideGrade && (!platinum || achievement.ps5TrophyId) && <div className="trophy-styles-grade-icon" data-trophy-grade={achievement.grade ?? 'bronze'} title={t((achievement.grade ?? 'bronze')[0].toUpperCase() + (achievement.grade ?? 'bronze').slice(1))} style={styles.grade}><TrophyIcon grade={achievement.grade} /></div>}
           <div style={styles.name} title={achievement.strName}>{achievement.strName}</div>
-          {percent !== undefined && <span className="trophy-styles-rarity" data-rarity-source={rarity?.source} style={styles.rarity}
-            title={t('{percent} of players earned this achievement ({source}).', { percent: percentText, source: sourceName })}>{sourceName} · {percentText}</span>}
+          {(percent !== undefined || progress) && <div style={styles.metadata}>
+            {percent !== undefined && <span className="trophy-styles-rarity" data-rarity-source={rarity?.source} style={styles.rarity}
+              title={t('{percent} of players earned this achievement ({source}).', { percent: percentText, source: sourceName })}>{sourceName} · {percentText}</span>}
+            {progress && <span data-trophy-progress style={styles.progress} title={progress} aria-label={progress}>{achievement.gameProgress!.earned} / {achievement.gameProgress!.total}</span>}
+          </div>}
         </div>
         <ScrollingSubtitle text={subtitle} active={playing} onMeasure={measureSubtitle} />
-        {progress && <div data-trophy-progress style={{ fontSize: 14, lineHeight: '16px', color: '#a8a9a9' }}>{progress}</div>}
       </div>
       <div className="trophy-styles-badge" style={styles.badge}><div style={styles.badgeInner}><img src={playstationLogo} style={styles.logo} alt="PlayStation" /></div></div>
     </div>
