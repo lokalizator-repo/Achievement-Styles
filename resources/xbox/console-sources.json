@@ -1,0 +1,155 @@
+{
+  "source": "User-supplied console videos, 3840x2160 VP9 at 50 fps",
+  "sources": {
+    "normal": {
+      "video": "https://www.youtube.com/watch?v=VfvTVP10FIk",
+      "format": "628",
+      "width": 3840,
+      "height": 2160,
+      "fps": 50.0,
+      "start": 907.1999999999974,
+      "segments": 4,
+      "requestedStart": 910,
+      "requestedEnd": 927,
+      "sha256": "9c7f6bc43d1403f964fad2b6c1750d7af24dd67e2acffd05c5304807f6e69803",
+      "steadyCrop": [
+        1440,
+        1820,
+        240,
+        240
+      ],
+      "introSeconds": [
+        5.5,
+        8
+      ],
+      "idleSeconds": [
+        8,
+        12
+      ],
+      "processing": "Orange chroma unmatting and 2x Lanczos downsampling; normal idle averages the unchanged trophy frames."
+    },
+    "rare": {
+      "video": "https://www.youtube.com/watch?v=JfUrxN4jsl0",
+      "format": "628",
+      "width": 3840,
+      "height": 2160,
+      "fps": 50.0,
+      "start": 4417.200000000027,
+      "segments": 4,
+      "requestedStart": 4418,
+      "requestedEnd": 4434,
+      "sha256": "e093a2eccd3a340aef3b14c588e6b10def960f94cfda5088be5e54892c8fba8f",
+      "steadyCrop": [
+        1320,
+        1820,
+        240,
+        240
+      ],
+      "introSeconds": [
+        5.5,
+        8
+      ],
+      "idleSeconds": [
+        8,
+        12
+      ],
+      "processing": "Orange chroma unmatting and 2x Lanczos downsampling; normal idle averages the unchanged trophy frames."
+    }
+  },
+  "assets": {
+    "ConsoleTrophyIntro": {
+      "file": "ConsoleTrophyIntro.png",
+      "width": 1200,
+      "height": 1560,
+      "frameWidth": 120,
+      "frameHeight": 120,
+      "frames": 125,
+      "fps": 50,
+      "sha256": "2c1b519a48d74f6c53d501ced4c0beb48beaaa563bb6f0fca5f75aaf938aaa55"
+    },
+    "ConsoleTrophyIdle": {
+      "file": "ConsoleTrophyIdle.png",
+      "width": 1200,
+      "height": 120,
+      "frameWidth": 120,
+      "frameHeight": 120,
+      "frames": 1,
+      "fps": 50,
+      "sha256": "3b1f9889f52a74a321bb503bcbedcd2cad86648a56922e2179605ed9ad0ba88e"
+    },
+    "ConsoleTrophyOutro": {
+      "file": "ConsoleTrophyOutro.png",
+      "width": 1200,
+      "height": 120,
+      "frameWidth": 120,
+      "frameHeight": 120,
+      "frames": 1,
+      "fps": 50,
+      "sha256": "3b1f9889f52a74a321bb503bcbedcd2cad86648a56922e2179605ed9ad0ba88e"
+    },
+    "ConsoleDiamondIntro": {
+      "file": "ConsoleDiamondIntro.png",
+      "width": 1200,
+      "height": 1560,
+      "frameWidth": 120,
+      "frameHeight": 120,
+      "frames": 125,
+      "fps": 50,
+      "sha256": "61a03556aa1d822d4b1a334fb84ddfe1f6817a28be532c8dfbbf3745cafca178"
+    },
+    "ConsoleDiamondIdle": {
+      "file": "ConsoleDiamondIdle.png",
+      "width": 1200,
+      "height": 480,
+      "frameWidth": 120,
+      "frameHeight": 120,
+      "frames": 33,
+      "fps": 50,
+      "sha256": "8762f8cf34be4ef65208ba51a4e020eed43f07ef9467d757a4d84b9c6763a2c5"
+    },
+    "ConsoleDiamondOutro": {
+      "file": "ConsoleDiamondOutro.png",
+      "width": 1200,
+      "height": 120,
+      "frameWidth": 120,
+      "frameHeight": 120,
+      "frames": 1,
+      "fps": 50,
+      "sha256": "1795d494c7bef962640ee546508f720a4820321269d941c9a787787805de2718"
+    }
+  },
+  "rarePeriodCandidates": [
+    [
+      96.30217742919922,
+      33
+    ],
+    [
+      98.05585479736328,
+      99
+    ],
+    [
+      99.1754379272461,
+      67
+    ],
+    [
+      103.14327239990234,
+      34
+    ],
+    [
+      103.16549682617188,
+      66
+    ],
+    [
+      115.29779052734375,
+      32
+    ],
+    [
+      118.64863586425781,
+      68
+    ],
+    [
+      122.79142761230469,
+      65
+    ]
+  ]
+}

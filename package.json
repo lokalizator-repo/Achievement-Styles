@@ -1,0 +1,30 @@
+{
+  "name": "trophy-styles",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "types": "starlight lsp",
+    "check": "tsc --noEmit",
+    "build": "node scripts/build-assets.mjs && starlight pack --release",
+    "release": "npm run build && node scripts/prepare-release.mjs",
+    "preview": "node scripts/build-preview.mjs",
+    "preview:xbox": "node scripts/build-assets.mjs && node scripts/build-xbox-preview.mjs",
+    "preview:xbox-motion": "node scripts/build-assets.mjs && node scripts/render-xbox-motion.mjs",
+    "verify:steam": "node scripts/verify-steam.mjs",
+    "pretest": "npm run build",
+    "test": "node --test tests/*.test.mjs",
+    "prepare": "starlight lsp",
+    "precheck": "node scripts/build-assets.mjs"
+  },
+  "devDependencies": {
+    "@steambrew/starlight": "1.1.6",
+    "@types/react": "19.1.1",
+    "@types/react-dom": "19.1.1",
+    "esbuild": "0.25.12",
+    "playwright-core": "^1.62.1",
+    "react": "19.1.1",
+    "react-dom": "19.1.1",
+    "typescript": "5.9.3"
+  }
+}

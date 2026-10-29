@@ -1,0 +1,42 @@
+[
+  {
+    "grade": "bronze",
+    "url": "https://static.wikia.nocookie.net/playstation/images/6/65/Bronze_trophy.png/revision/latest?format=original",
+    "file": "resources/ps4-trophy-bronze.png",
+    "size": [
+      240,
+      240
+    ],
+    "sha256": "bc14816fe789c51bbfff59a304f427e051b0a0790010f1797cbe55933a4d6e6b"
+  },
+  {
+    "grade": "silver",
+    "url": "https://static.wikia.nocookie.net/playstation/images/c/c8/Silver_trophy.png/revision/latest?format=original",
+    "file": "resources/ps4-trophy-silver.png",
+    "size": [
+      240,
+      240
+    ],
+    "sha256": "f29e7a081f34d55798199a9eb3b36859e73a6192cac87d0018ceac1119dca5f9"
+  },
+  {
+    "grade": "gold",
+    "url": "https://static.wikia.nocookie.net/playstation/images/f/fd/Gold_trophy.png/revision/latest?format=original",
+    "file": "resources/ps4-trophy-gold.png",
+    "size": [
+      240,
+      240
+    ],
+    "sha256": "c4a33c87ea7903191b3ad8cadd0c324ac68bd4d95b2471bc81a4a8fc304f7415"
+  },
+  {
+    "grade": "platinum",
+    "url": "https://static.wikia.nocookie.net/playstation/images/2/2d/Platinum_trophy.png/revision/latest?format=original",
+    "file": "resources/ps4-trophy-platinum.png",
+    "size": [
+      240,
+      240
+    ],
+    "sha256": "c25112a5522a17875bf9d54b016fcc9f8075d98cbf5b9a1cd4e91dd11b041135"
+  }
+]

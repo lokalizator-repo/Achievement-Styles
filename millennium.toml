@@ -1,0 +1,22 @@
+[plugin]
+id = "local.trophy-styles"
+name = "Achievement Styles"
+version = "1.0.0"
+author = "Lokalizator"
+description = "PS5, PS4 and Xbox achievement notification styles."
+
+[backend]
+entry = "backend/main.lua"
+sources = ["backend/**/*.lua"]
+
+[frontend]
+entry = "frontend/index.tsx"
+
+[compiler]
+output_path = "dist/trophy-styles.star"
+
+[assets]
+resources = ["resources/packed/*.gz", "resources/packed/xbox/*.gz"]
+
+[patches]
+debug = false

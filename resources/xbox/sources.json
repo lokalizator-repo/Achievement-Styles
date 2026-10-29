@@ -1,0 +1,161 @@
+{
+  "source": "https://xct.live/wiki/mythic",
+  "downloaded": "2026-10-24",
+  "files": [
+    {
+      "name": "AchievementUnlocked.mp3",
+      "sha256": "97e4abef9cf99e0c7933b5298770dc5058b13f9c5d2032f82d8454552407764a",
+      "bytes": 12288
+    },
+    {
+      "name": "AchievementUnlocked.png",
+      "sha256": "e46f3e311544819d5e1aee1174831542f961d3c757bc7cc47211c1f022decc3a",
+      "bytes": 373
+    },
+    {
+      "name": "animation.json",
+      "sha256": "80250dc48014476cb16a90814ca90e425ee6f7b3b34baf637c5bc85961e432cf",
+      "bytes": 38181
+    },
+    {
+      "name": "Aurora.png",
+      "sha256": "1f24ff99a0676b61fbbfac8255f23b9bf106db9cf3aee242fb413ab641b68c62",
+      "bytes": 337891
+    },
+    {
+      "name": "DiamondIdleV2.png",
+      "sha256": "97a7e0c150aac11d2e3af05e818b805340e015233b4196bb7798b7cad7771b6e",
+      "bytes": 69407
+    },
+    {
+      "name": "DiamondIntroV2.png",
+      "sha256": "0a1c322012bda71ffad03f83ab34b4043eb0f080fc932b0bc0d7a01e4c4ab70e",
+      "bytes": 120134
+    },
+    {
+      "name": "DiamondOutroV2.png",
+      "sha256": "7bdb515a3eb6558222a9e7c6ee5dc0bd4e86afe397879a7e59d480e3fd39bc00",
+      "bytes": 88112
+    },
+    {
+      "name": "EnhancedShadowCenter.png",
+      "sha256": "7118de49d3865815ddbd47b2465668e9cdc71084594ba9e7504202c29c96e7d7",
+      "bytes": 99
+    },
+    {
+      "name": "EnhancedShadowEdge.png",
+      "sha256": "14da6b0a7013bedc4e4179c2dc8df3f6d66b50e773471792d02cb7eeb748c4b5",
+      "bytes": 1116
+    },
+    {
+      "name": "gleam.png",
+      "sha256": "d89a2daacde9f789f9f939bb4af01446ec6e20c0d917c23ee055d037e7aba12f",
+      "bytes": 3811
+    },
+    {
+      "name": "glyphshadow.png",
+      "sha256": "f9c9b70cd9d7c848033d794bd6bcae8b1a5e6f9573672458ee7d0ed23bbcce1b",
+      "bytes": 1290
+    },
+    {
+      "name": "mythic.wav",
+      "sha256": "ddd34a618ed75062d8e9311403126a9a5a3c733a29d5312bb56ea9fc8792631d",
+      "bytes": 2976846
+    },
+    {
+      "name": "MythicAchievementUnlocked.mp3",
+      "sha256": "536d1aeba328df5b558b15dfa24324eb74becf98a446f39b2197961d3cf2995c",
+      "bytes": 620160
+    },
+    {
+      "name": "MythicGlowA.png",
+      "sha256": "5e4e0c800e5a9215aac4349d7d6dd16883ec5a4f30c1430e327405f832f49504",
+      "bytes": 8178
+    },
+    {
+      "name": "MythicGlowB.png",
+      "sha256": "ea41b5ce8124594b8a3b505f896687c2dcec31daf6e8e89878d3c061d6202f4a",
+      "bytes": 8649
+    },
+    {
+      "name": "MythicIdle.png",
+      "sha256": "14f86508ab081898bd4ba314557fef6ba093b670f5d2acd6d9c52e97b9897238",
+      "bytes": 342804
+    },
+    {
+      "name": "MythicIdleHighlights.png",
+      "sha256": "9517aa5d34f1a8825036a494402bbf14bd13b8e5d00f4194b67e6d98393c1d66",
+      "bytes": 233245
+    },
+    {
+      "name": "MythicIntro.png",
+      "sha256": "0e10b0cff9314a868139f09fb2a7bce910e2618e850dab000d48945b0605b92b",
+      "bytes": 680776
+    },
+    {
+      "name": "MythicIntroHighlights.png",
+      "sha256": "0127abed2a5cd164635413f716743d2876b8a09ad7fb74eacde6ca6227410a2e",
+      "bytes": 699869
+    },
+    {
+      "name": "MythicOutro.png",
+      "sha256": "eaa72bb30f1d9ecf2c632d9079e0fed83716989b9acde4481bf46596b2313f9c",
+      "bytes": 221456
+    },
+    {
+      "name": "MythicOutroHighlights.png",
+      "sha256": "fb14e1acf5156859f69f80a65e1e8cec4f57a867b12a194c7f84517cc80b11b4",
+      "bytes": 150266
+    },
+    {
+      "name": "MythicPulse.png",
+      "sha256": "c06600acb68f220b81d6870642c5fcf1dad6ce6673f01b4d1710541971d2b745",
+      "bytes": 3894
+    },
+    {
+      "name": "mythic_unlocked.png",
+      "sha256": "0db4c55aa28367ee6a215f54018dd741a546bb9cba429007fcedc341541b6df9",
+      "bytes": 12764
+    },
+    {
+      "name": "normal.wav",
+      "sha256": "2be18955b21b56eb734c205f6cf27e10c3980e8699e9777814ad8121d2bef83c",
+      "bytes": 104970
+    },
+    {
+      "name": "rare.wav",
+      "sha256": "fd0dcca8323d2de44c8c37835f6f494e72534afd48beb8a5d1f817ac19aee586",
+      "bytes": 2497614
+    },
+    {
+      "name": "RareAchievementUnlocked.mp3",
+      "sha256": "223789dd6e625aaeb43c8ccdddf42ccc6fdfab2c8bdc18c657a93b08fe24dba3",
+      "bytes": 312192
+    },
+    {
+      "name": "Ripple.png",
+      "sha256": "9bc494c354a0ab524749507980acff34051e3942b410082b41d362481cec4d80",
+      "bytes": 16194
+    },
+    {
+      "name": "ShimmerSparkle.png",
+      "sha256": "0efa5aa8ea59fa218cedfd0b06dbd6bf904153327c761b579592b8fac4105a7e",
+      "bytes": 915
+    },
+    {
+      "name": "TrophyIdle.png",
+      "sha256": "c2b66fbfb18e5191862046de7f36c3aba0fed714909bdc154619f8f637abb54a",
+      "bytes": 1315
+    },
+    {
+      "name": "TrophyIntro.png",
+      "sha256": "6097723f8f05fb687e931438cf44319941cd97a060803a4551d5935ec67bc67a",
+      "bytes": 35745
+    },
+    {
+      "name": "TrophyOutro.png",
+      "sha256": "d16f0ae4012514184e4f4db2d3bd944a5e608924b2f497da7a048f3f64fb71b5",
+      "bytes": 27084
+    }
+  ]
+}

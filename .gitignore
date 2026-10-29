@@ -1,0 +1,8 @@
+node_modules/
+.millennium/
+dist/
+resources/packed/
+.millennium/lsp/
+frontend/ps5-assets.ts
+frontend/ps4-assets.ts
+frontend/xbox-assets.ts
