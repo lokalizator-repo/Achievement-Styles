@@ -1,5 +1,7 @@
 # Asset attribution
 
+The MIT license covers the plugin source code. Third-party artwork, recordings, fonts and brands listed below are excluded from that license and retain their respective rights.
+
 Achievement Styles is an independent Steam plugin. Sony, Microsoft, Monotype and game publishers retain the rights to their respective artwork, recordings, fonts and brands. The plugin does not claim affiliation with those companies.
 
 ## PlayStation

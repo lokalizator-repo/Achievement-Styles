@@ -11,6 +11,7 @@ await mkdir(source);
 for (const [from, name] of [
   ['dist/trophy-styles.star', 'trophy-styles.star'],
   ['README.md', 'README.md'],
+  ['LICENSE', 'LICENSE'],
   ['resources/NOTICE.md', 'NOTICE.md'],
 ]) await cp(from, join(destination, name));
 
@@ -23,7 +24,7 @@ for (const directory of ['frontend', 'backend', 'resources', 'scripts', 'tests',
     filter: file => !excluded.has(file.split(/[\\/]/).at(-1)),
   });
 }
-for (const file of ['package.json', 'package-lock.json', 'millennium.toml', 'tsconfig.json', 'README.md', '.gitignore']) {
+for (const file of ['package.json', 'package-lock.json', 'millennium.toml', 'tsconfig.json', 'README.md', 'LICENSE', '.gitignore']) {
   await cp(file, join(source, file));
 }
 
