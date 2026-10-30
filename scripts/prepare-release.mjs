@@ -13,6 +13,7 @@ for (const [from, name] of [
   ['README.md', 'README.md'],
   ['LICENSE', 'LICENSE'],
   ['resources/NOTICE.md', 'NOTICE.md'],
+  ['resources/THIRD-PARTY-LICENSES.txt', 'THIRD-PARTY-LICENSES.txt'],
 ]) await cp(from, join(destination, name));
 
 const excluded = new Set([

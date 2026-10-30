@@ -16,7 +16,7 @@ entry = "frontend/index.tsx"
 output_path = "dist/trophy-styles.star"
 
 [assets]
-resources = ["resources/packed/*.gz", "resources/packed/xbox/*.gz"]
+resources = ["resources/packed/*.gz", "resources/packed/xbox/*.gz", "resources/THIRD-PARTY-LICENSES.txt"]
 
 [patches]
 debug = false
